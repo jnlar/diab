@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -6,11 +6,12 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {Container, Skeleton, TablePagination} from "@mui/material";
+import { Container, TablePagination } from "@mui/material";
 import EnhancedTableHead from "../Table/EnhancedTableHead";
 import EnhancedTableToolbar from "../Table/EnhancedTableToolbar";
 import { Checkbox } from "@mui/material";
 
+// NOTE: we could move these to utilities, as they can be reused for other components
 const descComparator = (a, b, orderBy) => {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -30,6 +31,9 @@ const getComparator = (order, orderBy) => {
 }
 
 /**
+ * TODO:
+ *  - [ ] Notification for deletion of readings
+ *  - [ ] Also need to implement editing of already existing readings
  * @returns {JSX.Element}
  * @constructor
  */
@@ -40,19 +44,20 @@ const Readings = () => {
   const [reading, setReading] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(7);
-  const [deleting, setDeleting] = useState(false);
-  const [justDeleted, setJustDeleted] = useState(false);
   const [message, setMessage] = useState('');
+  // NOTE: do we need this? it _does_ correlate to message state
+  const [status, setStatus] = useState('');
 
   useEffect(() => {
     axios.get(`/get/readings`).then(response => {
       setReading(response.data)
+    }).catch(err => {
+      setMessage(err.response.data.message.text)
+      setStatus(err.response.data.message.level)
     })
   }, [setReading]);
 
   const handleDeleteRecords = async () => {
-    setDeleting(true);
-
     let selectedToJson = {}
     selected.map((k, i) => selectedToJson[i] = k)
 
@@ -70,20 +75,16 @@ const Readings = () => {
       })
     })
 
-    try {
-      await axios.post(`/reading/remove`, selectedToJson)
-        .then((res) => {
-          if (res.data.message.level === 'success') {
-            setMessage(res.data.message.text);
-            setReading(readingsCopy);
-            setSelected(selectedCopy);
-          }
-
-          setDeleting(false);
-        })
-    } catch (e) {
-      console.log(e)
-    }
+    await axios.post(`/reading/remove`, selectedToJson)
+      .then((res) => {
+        setMessage(res.data.message.text);
+        setStatus(res.data.message.level)
+        setReading(readingsCopy);
+        setSelected(selectedCopy);
+      }).catch((err) => {
+        setMessage(err.response.data.message.text);
+        setStatus(err.response.data.message.level)
+      })
   }
 
   const handleRequestSort = (event, property) => {
@@ -153,7 +154,6 @@ const Readings = () => {
             />
             <TableBody>
               {
-                //(rowsPerPage > 0 ? reading.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : reading)
                 (reading.slice().sort(getComparator(order, orderBy)))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((key, index) => {

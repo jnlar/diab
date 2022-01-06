@@ -1,11 +1,11 @@
-import React, {useEffect, useState, Suspense, Fragment} from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Link
 } from 'react-router-dom';
-import {Tabs, Tab, Skeleton, Container, Paper, Stack} from '@mui/material';
+import { Tabs, Tab, Skeleton, Container, Paper, } from '@mui/material';
 import Home from "../Home";
 
 const Readings = React.lazy(() => import("../View/Readings"));

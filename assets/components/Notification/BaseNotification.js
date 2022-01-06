@@ -1,17 +1,9 @@
-import React, {Fragment, useEffect} from "react";
+import React, {Fragment } from "react";
 import { Alert, Skeleton, Stack } from "@mui/material";
 import PropTypes from "prop-types";
 
-BaseNotification.propTypes = {
-  severity: PropTypes.string.isRequired,
-  message: PropTypes.string.isRequired,
-  loading: PropTypes.bool.isRequired,
-}
-
-export default function BaseNotification(props) {
+function BaseNotification(props) {
   const { loading, severity, message } = props;
-
-  setTimeout(() => null, 20000);
 
   return (
     <Fragment>
@@ -25,3 +17,11 @@ export default function BaseNotification(props) {
     </Fragment>
   )
 }
+
+BaseNotification.propTypes = {
+  severity: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired,
+  loading: PropTypes.bool.isRequired,
+}
+
+export default BaseNotification;

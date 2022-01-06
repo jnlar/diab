@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AreaChart, Area, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip, Legend } from 'recharts';
-import { styled, Box, Container, Divider, Grid, Paper, Slider, DataGrid, Typography} from "@mui/material";
+import { styled, Box, Container, Divider, Grid, Paper, Slider, Typography} from "@mui/material";
 import TimelineIcon from '@mui/icons-material/Timeline';
 import axios from "axios";
 
