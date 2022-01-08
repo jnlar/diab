@@ -8,7 +8,7 @@ import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 
-const EnhancedTableToolbar = (props) => {
+export default function EnhancedTableToolbar(props) {
   const { numSelected, handleDelete } = props;
 
   return (
@@ -63,5 +63,3 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
   handleDelete: PropTypes.func.isRequired,
 };
-
-export default EnhancedTableToolbar;

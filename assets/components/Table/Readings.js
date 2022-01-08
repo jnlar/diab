@@ -7,37 +7,17 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Container, TablePagination } from "@mui/material";
-import EnhancedTableHead from "../Table/EnhancedTableHead";
-import EnhancedTableToolbar from "../Table/EnhancedTableToolbar";
+import EnhancedTableHead from "./components/EnhancedTableHead";
+import EnhancedTableToolbar from "./components/EnhancedTableToolbar";
 import { Checkbox } from "@mui/material";
-
-// NOTE: we could move these to utilities, as they can be reused for other components
-const descComparator = (a, b, orderBy) => {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-
-  return 0;
-}
-
-const getComparator = (order, orderBy) => {
-  return order === 'desc'
-    ? (a, b) => descComparator(a, b, orderBy)
-    : (a, b) => -descComparator(a, b, orderBy);
-}
+import { getComparator } from '../util/util';
 
 /**
  * TODO:
  *  - [ ] Notification for deletion of readings
- *  - [ ] Also need to implement editing of already existing readings
- * @returns {JSX.Element}
- * @constructor
+ *  - [ ] Implementation editing of already existing readings
  */
-const Readings = () => {
+export default function Readings() {
   const [order, setOrder] = useState('desc');
   const [orderBy, setOrderBy] = useState('date');
   const [selected, setSelected] = useState([]);
@@ -45,7 +25,6 @@ const Readings = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(7);
   const [message, setMessage] = useState('');
-  // NOTE: do we need this? it _does_ correlate to message state
   const [status, setStatus] = useState('');
 
   useEffect(() => {
@@ -57,7 +36,7 @@ const Readings = () => {
     })
   }, [setReading]);
 
-  const handleDeleteRecords = async () => {
+  async function handleDeleteRecords() {
     let selectedToJson = {}
     selected.map((k, i) => selectedToJson[i] = k)
 
@@ -76,33 +55,33 @@ const Readings = () => {
     })
 
     await axios.post(`/reading/remove`, selectedToJson)
-      .then((res) => {
+      .then(res => {
         setMessage(res.data.message.text);
         setStatus(res.data.message.level)
         setReading(readingsCopy);
         setSelected(selectedCopy);
-      }).catch((err) => {
+      }).catch(err => {
         setMessage(err.response.data.message.text);
         setStatus(err.response.data.message.level)
       })
   }
 
-  const handleRequestSort = (event, property) => {
+  function handleRequestSort(event, property) {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
+  }
 
-  const handleSelectAllClick = (event) => {
+  function handleSelectAllClick(event) {
     if (event.target.checked) {
       const newSelecteds = reading.map((n) => n.id);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
-  };
+  }
 
-  const handleClick = (event, id) => {
+  function handleClick(event, id) {
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
 
@@ -120,17 +99,17 @@ const Readings = () => {
     }
 
     setSelected(newSelected);
-  };
+  }
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - reading.length) : 0;
 
-  const isSelected = (id) => selected.indexOf(id) !== -1;
+  const isSelected = id => selected.indexOf(id) !== -1;
 
-  const handleChangePage = (e, newPage) => {
+  function handleChangePage(e, newPage) {
     setPage(newPage);
-  };
+  }
 
-  const handleRowsPerPage = (e) => {
+  function handleRowsPerPage(e) {
     setRowsPerPage(parseInt(e.target.value, 10));
     setPage(0);
   }
@@ -214,5 +193,3 @@ const Readings = () => {
     </Container>
   )
 }
-
-export default Readings;

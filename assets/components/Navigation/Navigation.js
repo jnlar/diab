@@ -8,20 +8,23 @@ import {
 import { Tabs, Tab, Skeleton, Container, Paper, } from '@mui/material';
 import Home from "../Home";
 
-const Readings = React.lazy(() => import("../View/Readings"));
+const Readings = React.lazy(() => import("../Table/Readings"));
 const AddReadingForm = React.lazy(() => import("../Form/AddReadingForm"));
 const ReadingsGraph = React.lazy(() => import("../Graph/ReadingsGraph"));
 
-const Navigation = () => {
+export default function Navigation() {
   const [tabsValue, setTabsValue] = useState(0);
 
-  const handleTabsChange = (e, newTabsValue) => {
-    setTabsValue(newTabsValue);
-  }
+  useEffect(() => {
+    window.onpopstate = handleLocation;
+    handleLocation();
+  }, [tabsValue]);
+
+  const handleTabsChange = (e, newTabsValue) => setTabsValue(newTabsValue);
 
   // FIXME: there must be a smarter way to do this?
-  const handleLocation = () => {
-    let path = location.pathname;
+  function handleLocation() {
+    let path = window.location.pathname;
 
     switch (!0) {
       case path === "/":
@@ -34,12 +37,6 @@ const Navigation = () => {
         return setTabsValue(3);
     }
   }
-
-  useEffect(() => {
-    window.onpopstate = handleLocation;
-
-    handleLocation();
-  }, [tabsValue]);
 
   return (
     <Router>
@@ -88,5 +85,3 @@ const Navigation = () => {
     </Router>
   )
 }
-
-export default Navigation;

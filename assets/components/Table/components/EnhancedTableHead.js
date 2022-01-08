@@ -29,9 +29,8 @@ const headCells = [
   }
 ];
 
-const EnhancedTableHead = (props) => {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
-    props;
+export default function EnhancedTableHead(props) {
+  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
 
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -85,5 +84,3 @@ EnhancedTableHead.propTypes = {
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
 }
-
-export default EnhancedTableHead;

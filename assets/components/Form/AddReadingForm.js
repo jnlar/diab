@@ -1,4 +1,4 @@
-import React, { Suspense , useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { formatISO } from "date-fns";
 import {
@@ -8,30 +8,25 @@ import {
   Stack,
   Typography,
   Paper,
-  Skeleton
 } from "@mui/material";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { DateTimePicker, LocalizationProvider } from "@mui/lab";
-import BaseNotification from "../Notification/BaseNotification";
+import { NotificationHandler } from "../Notification/BaseNotification";
 
 /**
  * @returns {JSX.Element}
  * @constructor
  */
-const AddReadingForm = () => {
+export default function AddReadingForm() {
   const [reading, setReading] = useState('')
-  // FIXME: format date to more readable format
-  const [datetimeValue, setDatetimeValue] = useState(new Date().toISOString());
+  // FIXME: this date seems to default to a certain point in time?
+  const [datetimeValue, setDatetimeValue] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [status, setStatus] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    setTimeout(() => null, 5 * 1000)
-  }, []);
-
-  const handleSubmit = async (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
 
@@ -49,19 +44,6 @@ const AddReadingForm = () => {
 
     setSubmitted(true)
     setLoading(false);
-  }
-
-  const handleNotification = () => {
-    let notification = <BaseNotification loading={loading} severity={status} message={message} />
-
-    if (submitted === true) {
-      switch (!0) {
-        case status === 'success':
-          return notification
-        case status === 'error':
-          return notification
-      }
-    }
   }
 
   return (
@@ -90,11 +72,12 @@ const AddReadingForm = () => {
             <Button style={{ width: '27%' }} variant={"outlined"} type={"submit"}>Add Reading</Button>
           </Stack>
         </Typography>
-        {handleNotification()}
+        <NotificationHandler
+          loading={loading}
+          status={status}
+          message={message}
+          submitted={submitted} />
       </Paper>
     </Container>
   )
-
 }
-
-export default AddReadingForm;
