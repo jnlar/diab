@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, Fragment} from "react";
 import axios from "axios";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -17,7 +17,7 @@ import { getComparator } from '../util/util';
  *  - [ ] Notification for deletion of readings
  *  - [ ] Implementation editing of already existing readings
  */
-export default function Readings() {
+export default function ReadingsTable() {
   const [order, setOrder] = useState('desc');
   const [orderBy, setOrderBy] = useState('date');
   const [selected, setSelected] = useState([]);
@@ -115,8 +115,8 @@ export default function Readings() {
   }
 
   return (
-    <Container style={{ color: 'red' }} sx={{ p: 5 }} maxWidth={"md"}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
+    <Fragment>
+      <Paper className="mt-5" variant="outlined">
         <EnhancedTableToolbar
           numSelected={selected.length}
           handleDelete={handleDeleteRecords}
@@ -160,7 +160,7 @@ export default function Readings() {
                         </TableCell>
                         <TableCell id={labelId} component={"th"} scope={"row"}>{key.id}</TableCell>
                         <TableCell align={"right"}>{key.reading}</TableCell>
-                        <TableCell align={"right"}>{key.date}</TableCell>
+                        <TableCell align={"right"}>{key.date.replace(/\+00:00|T/g, ' ')}</TableCell>
                       </TableRow>
                     )
                   })
@@ -190,6 +190,6 @@ export default function Readings() {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleRowsPerPage} />
       </Paper>
-    </Container>
+    </Fragment>
   )
 }

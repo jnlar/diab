@@ -22,8 +22,16 @@ Encore
      */
     .addEntry('app', './assets/app.js')
 
-    // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
-    .enableStimulusBridge('./assets/controllers.json')
+    // NOTE: shouldn't need this, we'll see!
+    .addStyleEntry('tailwind', './assets/styles/app.css')
+    // enable post css loader
+    .enablePostCssLoader((options) => {
+        // new option outlined here https://webpack.js.org/loaders/postcss-loader/
+        options.postcssOptions = {
+            // directory where the postcss.config.js file is stored
+            path: './postcss.config.js'
+        };
+    })
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

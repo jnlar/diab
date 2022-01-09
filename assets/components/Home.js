@@ -1,55 +1,30 @@
-import React, {useState, useEffect, Fragment} from 'react';
-import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Legend } from "recharts";
+import React, { useRef, useState, useEffect, Fragment} from 'react';
 
-const data = [
-  {
-    subject: 'Math',
-    A: 120,
-    B: 110,
-    fullMark: 150,
-  },
-  {
-    subject: 'Chinese',
-    A: 98,
-    B: 130,
-    fullMark: 150,
-  },
-  {
-    subject: 'English',
-    A: 86,
-    B: 130,
-    fullMark: 150,
-  },
-  {
-    subject: 'Geography',
-    A: 99,
-    B: 100,
-    fullMark: 150,
-  },
-  {
-    subject: 'Physics',
-    A: 85,
-    B: 90,
-    fullMark: 150,
-  },
-  {
-    subject: 'History',
-    A: 65,
-    B: 85,
-    fullMark: 150,
-  },
-];
+function TextInputWithFocusButton() {
+  const inputEl = useRef(null);
+  const onButtonClick = () => {
+    // `current` points to the mounted text input element
+    inputEl.current.focus();
+    console.log(inputEl);
+  };
+  return (
+    <>
+      <input ref={inputEl} type="text" />
+      <button onClick={onButtonClick}>Focus the input</button>
+    </>
+  );
+}
 
 const Home = () => {
   return (
-    <RadarChart outerRadius={90} width={730} height={250} data={data}>
-      <PolarGrid />
-      <PolarAngleAxis dataKey="subject" />
-      <PolarRadiusAxis angle={30} domain={[0, 150]} />
-      <Radar name="Mike" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-      <Radar name="Lily" dataKey="B" stroke="#82ca9d" fill="#82ca9d" fillOpacity={0.6} />
-      <Legend />
-    </RadarChart>
+    <div className="w-1/4 p-5 bg-neutral-300">
+      <TextInputWithFocusButton />
+      <code className="text-xs">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer convallis dui odio, eget ullamcorper libero porta ut. Quisque sed scelerisque ex, sit amet semper erat. Donec malesuada sed arcu eu congue. Quisque id nunc sed massa convallis hendrerit et non odio. Etiam vitae interdum arcu. Fusce sed tincidunt urna. Phasellus iaculis leo ac lorem lacinia, et fermentum neque aliquet. Suspendisse dignissim vel purus vitae suscipit.
+        Praesent at tristique justo. Curabitur luctus elementum massa, sit amet mollis nulla rhoncus at. Suspendisse luctus facilisis risus, sed imperdiet nunc tincidunt euismod. Donec dictum fermentum libero, nec molestie turpis vestibulum vitae. Fusce convallis lectus varius posuere semper. Phasellus egestas risus at purus posuere faucibus. Mauris neque nisl, porttitor in rutrum sit amet, semper eu metus. Duis ipsum orci, varius at lorem in, scelerisque gravida elit.
+        Fusce augue purus, tempor et mauris placerat, porta maximus urna. Vestibulum non arcu non enim interdum condimentum egestas quis ante. Nunc sodales consequat nisi eu sollicitudin. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla pharetra vitae ipsum in blandit. Nam molestie a nulla sed ornare. Morbi vel faucibus elit. Integer interdum mauris vel elit lobortis venenatis. Suspendisse fringilla facilisis orci ac laoreet. Fusce venenatis quam sed congue elementum. Curabitur accumsan tristique justo ut feugiat. Integer ac consequat augue, ac pulvinar augue. In suscipit pharetra dui, vel tempus tellus bibendum vitae. Praesent et venenatis dolor. Suspendisse pulvinar, purus ut volutpat imperdiet, lectus ante finibus est, non ornare enim tortor a mi. Phasellus ante leo, faucibus sed aliquam nec, molestie et dolor.
+      </code>
+    </div>
   )
 }
 

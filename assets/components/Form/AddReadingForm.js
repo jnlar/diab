@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, {Fragment, useState} from "react";
 import axios from "axios";
 import { formatISO } from "date-fns";
 import {
   TextField,
   Button,
-  Container,
   Stack,
   Typography,
-  Paper,
+  Divider,
 } from "@mui/material";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { DateTimePicker, LocalizationProvider } from "@mui/lab";
 import { NotificationHandler } from "../Notification/BaseNotification";
+import { SmallText } from "../Paragraphs/Paragraph";
 
 /**
  * @returns {JSX.Element}
@@ -20,7 +20,7 @@ import { NotificationHandler } from "../Notification/BaseNotification";
 export default function AddReadingForm() {
   const [reading, setReading] = useState('')
   // FIXME: this date seems to default to a certain point in time?
-  const [datetimeValue, setDatetimeValue] = useState('');
+  const [datetimeValue, setDatetimeValue] = useState(new Date());
   const [submitted, setSubmitted] = useState(false);
   const [status, setStatus] = useState('');
   const [message, setMessage] = useState('');
@@ -46,9 +46,11 @@ export default function AddReadingForm() {
     setLoading(false);
   }
 
+  console.log(datetimeValue)
+
   return (
-    <Container sx={{ p: 5 }} maxWidth={"sm"}>
-      <Paper sx={{ p: 2 }} variant={"outlined"}>
+    <div className="grid grid-cols-5 gap-3">
+      <div className="col-span-3">
         <Typography sx={{ pb: 2 }} variant={"h6"}>Add Reading</Typography>
         <Typography component={"form"} onSubmit={(e) => {handleSubmit(e)}}>
           <Stack justifyContent={"center"} spacing={2}>
@@ -69,7 +71,7 @@ export default function AddReadingForm() {
                   setDatetimeValue(dateIsoFormat);
                 }} />
             </LocalizationProvider>
-            <Button style={{ width: '27%' }} variant={"outlined"} type={"submit"}>Add Reading</Button>
+            <Button style={{ width: '25%' }} variant={"outlined"} type={"submit"}>Submit</Button>
           </Stack>
         </Typography>
         <NotificationHandler
@@ -77,7 +79,13 @@ export default function AddReadingForm() {
           status={status}
           message={message}
           submitted={submitted} />
-      </Paper>
-    </Container>
+      </div>
+      <div className="col-span-2">
+        <div>
+          <SmallText>uisque id nunc sed massa convallis hendrerit et non odio. Etiam vitae interdum arcu. Fusce sed tincidunt urna. Phasellus iaculis leo ac lorem lacinia</SmallText>
+          <SmallText>uisque id nunc sed massa convallis hendrerit et non odio. Etiam vitae interdum arcu.</SmallText>
+        </div>
+      </div>
+    </div>
   )
 }

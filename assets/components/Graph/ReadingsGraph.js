@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import { AreaChart, Area, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import {
-  styled,
   Box,
-  Container,
   Grid,
   Paper,
   Slider,
@@ -12,12 +10,6 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import Paragraph from "../Typography/Paragraph";
-
-const Item = styled(Paper)(({ theme }) => ({
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  color: theme.palette.text.secondary,
-}));
 
 const marks = [
   {
@@ -77,40 +69,35 @@ export default function ReadingsGraph() {
   }
 
   return (
-    <Container sx={{ p: 5 }} maxWidth={"md"}>
-      <Paper sx={{ p: 2 }} variant={"outlined"}>
-        <Typography sx={{ pb: 2 }} variant={"h6"}>
-          Readings graph
-        </Typography>
-        <ResponsiveContainer width="100%" height={450}>
-          <AreaChart
-            data={readings}
-            margin={{ top: 25, right: 30, bottom: 15 }}
-          >
-            <defs>
-              <linearGradient id={"colorReading"} x1="0" y1="0" x2="0" y1="1">
-                <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
-                <stop offset="95%" stopColor="#8884d8" stopOpacity={0}/>
-              </linearGradient>
-            </defs>
-            <CartesianGrid stroke={"#ccc"} strokeDasharray={"10 10"} />
-            <XAxis />
-            <YAxis />
-            <Tooltip content={<CustomToolTip />}
-             />
-            <Legend />
-            <Area type="monotone" dataKey="reading" stroke="#8884d8" fillOpacity={1} fill="url(#colorReading)" />
-          </AreaChart>
-        </ResponsiveContainer>
-      </Paper>
+    <Fragment>
+      <ResponsiveContainer width="100%" height={450}>
+        <AreaChart
+          data={readings}
+          margin={{ top: 25, right: 30, bottom: 15 }}
+        >
+          <defs>
+            <linearGradient id={"colorReading"} x1="0" y1="0" x2="0" y1="1">
+              <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
+              <stop offset="95%" stopColor="#8884d8" stopOpacity={0}/>
+            </linearGradient>
+          </defs>
+          <CartesianGrid stroke={"#ccc"} strokeDasharray={"10 10"} />
+          <XAxis />
+          <YAxis />
+          <Tooltip content={<CustomToolTip />}
+          />
+          <Legend />
+          <Area type="monotone" dataKey="reading" stroke="#8884d8" fillOpacity={1} fill="url(#colorReading)" />
+        </AreaChart>
+      </ResponsiveContainer>
       <Box sx={{ flexGrow: 1, pt: 2 }}>
         <Grid container spacing={2}>
           <Grid item xs={4}>
-            <Item>
-              <Typography variant="p" component="h3">
+            <Box>
+              <Typography className="font-medium text-lg" variant="p" component="h3">
                 Range
               </Typography>
-              <Typography variant="p">
+              <Typography className="font-light text-sm" variant="p">
                 Drag the slider to adjust the range of readings. Set to a max of 30 readings in total.
               </Typography>
               <Slider
@@ -122,16 +109,16 @@ export default function ReadingsGraph() {
                 onChange={handleSliderChange}
                 valueLabelDisplay={'auto'}
                 aria-label={"Date range slider"} />
-            </Item>
+            </Box>
           </Grid>
           <Grid item xs={8}>
             <Grid container>
-              <Item>
-              </Item>
+              <Box>
+              </Box>
             </Grid>
           </Grid>
         </Grid>
       </Box>
-    </Container>
+    </Fragment>
   )
 }
