@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, Fragment} from 'react';
+import React, { useRef } from 'react';
 
 function TextInputWithFocusButton() {
   const inputEl = useRef(null);
@@ -10,15 +10,14 @@ function TextInputWithFocusButton() {
   return (
     <>
       <input ref={inputEl} type="text" />
-      <button onClick={onButtonClick}>Focus the input</button>
+      <button onClick={onButtonClick}>Click</button>
     </>
   );
 }
 
 const Home = () => {
   return (
-    <div className="w-1/4 p-5 bg-neutral-300">
-      <TextInputWithFocusButton />
+    <div className="min-w-1/2 w-1/4 p-5 bg-neutral-300">
       <code className="text-xs">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer convallis dui odio, eget ullamcorper libero porta ut. Quisque sed scelerisque ex, sit amet semper erat. Donec malesuada sed arcu eu congue. Quisque id nunc sed massa convallis hendrerit et non odio. Etiam vitae interdum arcu. Fusce sed tincidunt urna. Phasellus iaculis leo ac lorem lacinia, et fermentum neque aliquet. Suspendisse dignissim vel purus vitae suscipit.
         Praesent at tristique justo. Curabitur luctus elementum massa, sit amet mollis nulla rhoncus at. Suspendisse luctus facilisis risus, sed imperdiet nunc tincidunt euismod. Donec dictum fermentum libero, nec molestie turpis vestibulum vitae. Fusce convallis lectus varius posuere semper. Phasellus egestas risus at purus posuere faucibus. Mauris neque nisl, porttitor in rutrum sit amet, semper eu metus. Duis ipsum orci, varius at lorem in, scelerisque gravida elit.

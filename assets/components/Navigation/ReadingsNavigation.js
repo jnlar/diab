@@ -1,7 +1,8 @@
-import React, {Fragment} from "react";
+import React, {Fragment, useState } from "react";
 import {
   Routes,
   Route,
+  Link,
 } from 'react-router-dom';
 import { Divider } from '@mui/material';
 
@@ -11,19 +12,19 @@ import ReadingsGraph from "../Graph/ReadingsGraph";
 import { CustomLi, NavLinks, CustomUl } from './components/NavComponents'
 import CustomCard from "../Card/Card";
 
-function Nav() {
+function Nav(props) {
   return (
     <Fragment>
       <nav>
         <CustomUl>
           <CustomLi>
-            <NavLinks to={"/readings/table"} text="Table" uppercase="uppercase" textColor="text-blue-500" textSize="text-sm" />
+            <NavLinks onClick={props.onClick} to={"/readings/table"} text="Table" uppercase="uppercase"  textColor="text-blue-500" textSize="text-sm" />
           </CustomLi>
           <CustomLi>
-            <NavLinks to={"/readings/graph"} text="Graph" uppercase="uppercase" textColor="text-blue-500" textSize="text-sm" />
+            <NavLinks onClick={props.onClick} to={"/readings/graph"} text="Graph" uppercase="uppercase" textColor="text-blue-500" textSize="text-sm" />
           </CustomLi>
           <CustomLi>
-            <NavLinks to={"/readings/add-reading"} text="Add" uppercase="uppercase" textColor="text-blue-500" textSize="text-sm" />
+            <NavLinks onClick={props.onClick} to={"/readings/add-reading"} text="Add" uppercase="uppercase" textColor="text-blue-500" textSize="text-sm" />
           </CustomLi>
         </CustomUl>
       </nav>
@@ -32,9 +33,14 @@ function Nav() {
   )
 }
 
+// TODO: aim to pass state down to CustomCard
 export default function ReadingsNavigation() {
+  const [path, setPath] = useState('');
+
+  const handleSetPath = () => setPath(location.pathname)
+
   return (
-    <CustomCard headerEl={<Nav />}>
+    <CustomCard path={path} headerEl={<Nav onClick={handleSetPath}/>}>
       <Routes>
         <Route path={`/table`} element={
           <ReadingsTable />

@@ -34,6 +34,10 @@ export default function ReadingsTable() {
       setMessage(err.response.data.message.text)
       setStatus(err.response.data.message.level)
     })
+
+    return () => {
+      setReading([]);
+    }
   }, [setReading]);
 
   async function handleDeleteRecords() {

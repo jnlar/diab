@@ -33,10 +33,10 @@ export default function Navigation() {
           </CustomLi>
         </CustomUl>
       </nav>
-      <Routes>
+      <Routes >
         <Route exact path="/" element={<Home />} />
-        <Route path="/readings/*" element={
-          <ReadingsNavigation  />
+        <Route  path="/readings/*" exact element={
+          <ReadingsNavigation key={document.location.href} />
         } />
       </Routes>
     </Router>
